@@ -15,6 +15,7 @@ public class BookListDaoImpl implements BookListDao {
     private static final String ADD_REQUEST = "insert into books(id, name, publisher,year,author) values (?,?,?,?,?)";
     private static final String SELECT_BY = "select (id,name,publisher,year,author) from books where ? = ?";
     private static final String SELECT_ALL = "select id,name,publisher,year,author from books";
+    private static final String DELETE = "delete from books where id = ?";
 
     private Properties getProperties() throws DaoException {
         try {
@@ -48,7 +49,14 @@ public class BookListDaoImpl implements BookListDao {
     }
 
     public void remove(Book book) throws DaoException {
-
+        Properties properties = getProperties();
+        try (Connection connection = DriverManager.getConnection(URL, properties)) {
+            PreparedStatement statement = connection.prepareStatement(DELETE);
+            statement.setString(1,book.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DaoException("Connection exception", e);
+        }
     }
 
     public Book selectById(String id) throws DaoException {
