@@ -1,8 +1,9 @@
+import by.shibaev.jdbc.controller.LibraryController;
 import by.shibaev.jdbc.model.entity.Book;
 import by.shibaev.jdbc.model.exception.ServiceException;
 import by.shibaev.jdbc.model.service.BookLibraryService;
 import by.shibaev.jdbc.model.service.impl.BookLibraryServiceImpl;
-import by.shibaev.jdbc.model.util.DataParameter;
+import by.shibaev.jdbc.model.service.DataParameter;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.Map;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class LibraryServiceTest {
+public class CommandTest {
     @Test
     public void addingTest() throws ServiceException {
         BookLibraryService bookLibraryService = BookLibraryServiceImpl.getInstance();
@@ -23,12 +24,11 @@ public class LibraryServiceTest {
         parameters.put(DataParameter.YEAR,"2005");
         parameters.put("author1","Vova");
         parameters.put("author2","Mira");
-        bookLibraryService.add(parameters);
-        List<Book> expected  = new ArrayList<Book>();
         List<String> authors = new ArrayList<String>();
         authors.add("Vova");
         authors.add("Mira");
-        BookLibrary bookLibrary = BookLibrary.getInstance();
-        assertTrue(bookLibrary.contains(new Book("Misha",authors,"Viva",2005)));
+        bookLibraryService.add(parameters);
+        List<Book> books = bookLibraryService.findAll();
+        assertTrue();
     }
 }
