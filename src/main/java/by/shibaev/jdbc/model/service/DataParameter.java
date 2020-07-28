@@ -1,4 +1,4 @@
-package by.shibaev.jdbc.model.util;
+package by.shibaev.jdbc.model.service;
 
 public class DataParameter {
     public static final String NAME = "name";
@@ -6,5 +6,5 @@ public class DataParameter {
     public static final String YEAR = "year";
     public static final String ID = "id";
     public static final String AUTHOR = "author";
-    public static final String AUTHOR_PATTERN = "author\\d";
+    public static final String AUTHOR_PATTERN = "author\\w";
 }

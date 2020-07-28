@@ -1,6 +1,7 @@
 package by.shibaev.jdbc.model.service;
 
 import by.shibaev.jdbc.model.entity.Book;
+import by.shibaev.jdbc.model.exception.DaoException;
 import by.shibaev.jdbc.model.exception.ServiceException;
 
 import java.util.List;
@@ -21,15 +22,6 @@ public interface BookLibraryService {
 
     List<Book> findByYear(Map<String, String> bookData) throws ServiceException;
 
-    List<Book> findAll();
+    List<Book> findAll() throws ServiceException;
 
-    List<Book> sortByName();
-
-    List<Book> sortById();
-
-    List<Book> sortByAuthor();
-
-    List<Book> sortByPublisher();
-
-    List<Book> sortByYear();
 }

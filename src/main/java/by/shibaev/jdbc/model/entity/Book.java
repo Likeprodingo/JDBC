@@ -23,6 +23,14 @@ public class Book {
         this.id = IDGenerator.generate();
     }
 
+    public Book(String id, String name, List<String> authors, String publisher, int publishYear) {
+        this.name = name;
+        this.authors = authors;
+        this.publisher = publisher;
+        this.publishYear = publishYear;
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }
@@ -98,10 +106,10 @@ public class Book {
         return sb.toString();
     }
 
-    public static class bookComp implements Comparator<Book>{
-        public int compare(Book b1, Book b2){
+    public static class bookComp implements Comparator<Book> {
+        public int compare(Book b1, Book b2) {
             int result = -1;
-            if(b1.name.equals(b2.name) && b2.publisher.equals(b1.publisher) && b1.publishYear == b2.publishYear && new publisherComp().compare(b1,b2)==0){
+            if (b1.name.equals(b2.name) && b2.publisher.equals(b1.publisher) && b1.publishYear == b2.publishYear && new publisherComp().compare(b1, b2) == 0) {
                 result = 0;
             }
             return result;

@@ -6,7 +6,7 @@ import by.shibaev.jdbc.model.entity.Book;
 import by.shibaev.jdbc.model.exception.DaoException;
 import by.shibaev.jdbc.model.exception.ServiceException;
 import by.shibaev.jdbc.model.service.BookLibraryService;
-import by.shibaev.jdbc.model.util.DataParameter;
+import by.shibaev.jdbc.model.service.DataParameter;
 import by.shibaev.jdbc.model.validator.BookValidator;
 
 
@@ -38,7 +38,7 @@ public class BookLibraryServiceImpl implements BookLibraryService {
             throw new ServiceException("Wrong data");
         }
         for (String key : bookData.keySet()) {
-            if (Pattern.matches(key, DataParameter.AUTHOR_PATTERN)) {
+            if (Pattern.matches(DataParameter.AUTHOR_PATTERN,key)) {
                 authors.add(bookData.get(key));
             }
         }
@@ -86,7 +86,7 @@ public class BookLibraryServiceImpl implements BookLibraryService {
             throw new ServiceException("Wrong data");
         }
         try {
-            book = bookListDao.find(id);
+            book = bookListDao.selectById(id);
         } catch (DaoException e) {
             throw new ServiceException("Doesn't exists", e);
         }
@@ -105,7 +105,12 @@ public class BookLibraryServiceImpl implements BookLibraryService {
         if (!bookValidator.isWordValid(name)) {
             throw new ServiceException("Wrong parameter");
         }
-        books = bookListDao.findByName(name);
+        try {
+            books = bookListDao.selectByName(name);
+
+        } catch (DaoException e) {
+            throw new ServiceException("Doesn't exists", e);
+        }
         return books;
     }
 
@@ -121,7 +126,11 @@ public class BookLibraryServiceImpl implements BookLibraryService {
         if (!bookValidator.isWordValid(author)) {
             throw new ServiceException("Wrong parameter");
         }
-        books = bookListDao.findByAuthor(author);
+        try {
+            books = bookListDao.selectByAuthor(author);
+        } catch (DaoException e) {
+            throw new ServiceException("Doesn't exists", e);
+        }
         return books;
     }
 
@@ -137,7 +146,11 @@ public class BookLibraryServiceImpl implements BookLibraryService {
         if (!bookValidator.isWordValid(publisher)) {
             throw new ServiceException("Wrong parameter");
         }
-        books = bookListDao.findByPublisher(publisher);
+        try {
+            books = bookListDao.selectByPublisher(publisher);
+        } catch (DaoException e) {
+            throw new ServiceException("Doesn't exists", e);
+        }
         return books;
     }
 
@@ -154,48 +167,23 @@ public class BookLibraryServiceImpl implements BookLibraryService {
         if (!bookValidator.isYearValid(year)) {
             throw new ServiceException("Wrong parameter");
         }
-        books = bookListDao.findByYear(Integer.parseInt(year));
+        try {
+            books = bookListDao.selectByYear(Integer.parseInt(year));
+        } catch (DaoException e) {
+            throw new ServiceException("Doesn't exists", e);
+        }
         return books;
     }
 
-    public List<Book> findAll() {
+    public List<Book> findAll() throws ServiceException {
         DaoFactory daoFactory = DaoFactory.getInstance();
         BookListDao bookListDao = daoFactory.getBookListDao();
-        return bookListDao.findAll();
-    }
-
-    public List<Book> sortByName() {
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        BookListDao bookListDao = daoFactory.getBookListDao();
-        List<Book> books = bookListDao.sortByName();
-        return books;
-    }
-
-    public List<Book> sortById() {
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        BookListDao bookListDao = daoFactory.getBookListDao();
-        List<Book> books = bookListDao.sortById();
-        return books;
-    }
-
-    public List<Book> sortByAuthor() {
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        BookListDao bookListDao = daoFactory.getBookListDao();
-        List<Book> books = bookListDao.sortByAuthor();
-        return books;
-    }
-
-    public List<Book> sortByPublisher() {
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        BookListDao bookListDao = daoFactory.getBookListDao();
-        List<Book> books = bookListDao.sortByPublisher();
-        return books;
-    }
-
-    public List<Book> sortByYear() {
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        BookListDao bookListDao = daoFactory.getBookListDao();
-        List<Book> books = bookListDao.sortByYear();
+        List<Book> books;
+        try {
+            books = bookListDao.selectAll();
+        } catch (DaoException e) {
+            throw new ServiceException("Doesn't exists", e);
+        }
         return books;
     }
 }

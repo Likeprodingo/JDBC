@@ -1,6 +1,6 @@
 package by.shibaev.jdbc.model.validator;
 
-import by.shibaev.jdbc.model.util.DataParameter;
+import by.shibaev.jdbc.model.service.DataParameter;
 
 import java.util.Map;
 import java.util.regex.Pattern;
